@@ -1,0 +1,54 @@
+body{
+    background-color: #1E1E1E;
+    color: #558B3D;
+    font-family: 'Ubuntu Mono';
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+header img {
+    height: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+canvas { 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    height: 300px;
+}
+
+main {
+    text-align: center;
+}
+
+main button {
+    width: 150px;
+    height: 35px;
+    margin: 6px;
+    background:#E6193C;
+    color: white;
+    border: none;
+    font-family: 'Ubuntu Mono';
+    font-size: 14px;
+}
+
+input[type='file'] {
+    display: none;
+}
+
+footer {
+    background-color: #1a1a1a;
+    position: fixed;
+    width: 100%;
+    height: 20px;
+    bottom: 0;
+    text-align: center;
+    font-size: 12px;
+    padding-top: 5px;
+}

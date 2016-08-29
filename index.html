@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>~ DJi ~</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="https://raw.githubusercontent.com/jieverson/jieverson.github.io/master/image/eu.png"></img>
+    </header>
+    
+    <main>
+        <canvas></canvas>
+
+        <div>
+            <button type="button" onclick="nextSound()">
+                <span class="fa fa-soundcloud"></span> Next Sound
+            </button>
+
+            <button type="button" onclick="upload()">
+                <span class="fa fa-cloud-upload"></span> Upload
+            </button>
+
+            <input type="file" onchange="file_uploaded()"/>
+        </div>
+    </main>
+
+    <footer>
+        ©Jiéverson Maissiat, 2016. All right reserved.
+    </footer>
+
+    <script src="https://use.fontawesome.com/de272cae62.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
