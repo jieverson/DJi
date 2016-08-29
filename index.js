@@ -41,11 +41,17 @@ function nextSound(){
         if(http.responseText){
             var result = JSON.parse(http.responseText)
             var music = result[parseInt(Math.random() * result.length)]
+            
+            document.querySelector('#author').hidden = false
+            var link = document.querySelector('#author a')
+            link.text = music.title
+            link.href = music.permalink_url
+
             audio.src = music.stream_url + '?client_id=4aec52a7c2e04ee6517c889ebaafcd43'
             audio.play()
         }
     }
-    http.open("GET", 'http://api.soundcloud.com/tracks?client_id=4aec52a7c2e04ee6517c889ebaafcd43', true) 
+    http.open("GET", 'http://api.soundcloud.com/tracks?filter=public&genres=electronic&client_id=4aec52a7c2e04ee6517c889ebaafcd43', true) 
     http.send()
 }
 
@@ -55,6 +61,7 @@ function upload(){
 }
 
 function file_uploaded(){
+    document.querySelector('#author').hidden = true
     let input = document.querySelector('input[type="file"]')
     var url = URL.createObjectURL(input.files[0]) 
     audio.src = url
