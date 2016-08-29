@@ -1,35 +1,35 @@
-let canvas = document.querySelector('canvas');
+var canvas = document.querySelector('canvas');
 canvas.width = canvas.scrollWidth;
 canvas.height = canvas.scrollHeight;
-let ctx = canvas.getContext('2d');
+var ctx = canvas.getContext('2d');
 
-let context = new AudioContext();
-let analyser = context.createAnalyser();
+var context = new AudioContext();
+var analyser = context.createAnalyser();
 analyser.connect(context.destination);
 
-let audio = new Audio();
+var audio = new Audio();
 audio.loop = true;
 audio.crossOrigin = 'anonymous';
 
 nextSound();
 
-let source = context.createMediaElementSource(audio);
+var source = context.createMediaElementSource(audio);
 source.connect(analyser);
 
-let width = canvas.width;
-let height = canvas.height;
+var width = canvas.width;
+var height = canvas.height;
 function loop(){
     window.requestAnimationFrame(loop);
-    let freq = new Uint8Array(analyser.frequencyBinCount);
+    var freq = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(freq);
 
-    let data = new Uint8Array(analyser.frequencyBinCount);
+    var data = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteTimeDomainData(data);
     
     ctx.clearRect(0, 0, width, height);
     
-    for(let i = 0; i < freq.length; i++){
-        let f = freq[i];
+    for(var i = 0; i < freq.length; i++){
+        var f = freq[i];
         draw(f,i,height,'#E6193C');
     }
 
@@ -37,11 +37,11 @@ function loop(){
     ctx.strokeStyle = '#558B3D';
     ctx.beginPath();
 
-    let x = 0;
+    var x = 0;
     ctx.moveTo(x, data[0] / 128.0 * height / 2);
-    for(let i = 1; i < data.length; i++) {
-        let v = data[i] / 128;
-        let y = v * height / 2;
+    for(var i = 1; i < data.length; i++) {
+        var v = data[i] / 128;
+        var y = v * height / 2;
         ctx.lineTo(x, y);
         x++;
     }
@@ -54,15 +54,15 @@ function draw(freq, index, height, color){
 }
 
 function nextSound(){
-    let http = new XMLHttpRequest();
-    http.onreadystatechange = () => { 
+    var http = new XMLHttpRequest();
+    http.onreadystatechange = function() { 
         if(http.responseText){
-            let result = JSON.parse(http.responseText);
+            var result = JSON.parse(http.responseText);
             console.log('Sounds: ' + result.length);
-            let music = result[parseInt(Math.random() * result.length)];
+            var music = result[parseInt(Math.random() * result.length)];
             
             document.querySelector('#author').hidden = false;
-            let link = document.querySelector('#author a');
+            var link = document.querySelector('#author a');
             link.text = music.title;
             link.href = music.permalink_url;
 
@@ -75,14 +75,14 @@ function nextSound(){
 }
 
 function upload(){
-    let input = document.querySelector('input[type="file"]');
+    var input = document.querySelector('input[type="file"]');
     input.click();
 }
 
 function file_uploaded(){
     document.querySelector('#author').hidden = true;
-    let input = document.querySelector('input[type="file"]');
-    let url = URL.createObjectURL(input.files[0]);
+    var input = document.querySelector('input[type="file"]');
+    var url = URL.createObjectURL(input.files[0]);
     audio.src = url;
     audio.play();
 }
