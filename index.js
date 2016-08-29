@@ -61,4 +61,9 @@ function file_uploaded(){
     audio.play();
 }
 
+function initialize_audio(){
+    audio.src = './audio.mp3'
+    audio.play();
+}
+
 loop()
