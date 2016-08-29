@@ -22,6 +22,9 @@ function loop(){
     window.requestAnimationFrame(loop)
     let freq = new Uint8Array(analyser.frequencyBinCount)
     analyser.getByteFrequencyData(freq)
+
+    let data = new Uint8Array(analyser.frequencyBinCount)
+    analyser.getByteTimeDomainData(data)
     
     ctx.clearRect(0, 0, width, height)
     
@@ -29,6 +32,21 @@ function loop(){
         var f = freq[i]
         draw(f,i,height,'#E6193C')
     }
+
+    ctx.lineWidth = 1
+    ctx.strokeStyle = '#558B3D'
+    ctx.beginPath()
+
+    let x = 0
+    ctx.moveTo(x, data[0] / 128.0 * height / 2);
+    for(let i = 1; i < data.length; i++) {
+        var v = data[i] / 128;
+        var y = v * height / 2;
+        ctx.lineTo(x, y)
+        x++
+    }
+    ctx.lineTo(width, height / 2)
+    ctx.stroke()
 }
 function draw(freq, index, height, color){
     ctx.fillStyle = color
