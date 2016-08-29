@@ -29,7 +29,7 @@ function loop(){
     ctx.clearRect(0, 0, width, height)
     
     for(let i = 0; i < freq.length; i++){
-        var f = freq[i]
+        let f = freq[i]
         draw(f,i,height,'#E6193C')
     }
 
@@ -38,10 +38,10 @@ function loop(){
     ctx.beginPath()
 
     let x = 0
-    ctx.moveTo(x, data[0] / 128.0 * height / 2);
+    ctx.moveTo(x, data[0] / 128.0 * height / 2)
     for(let i = 1; i < data.length; i++) {
-        var v = data[i] / 128;
-        var y = v * height / 2;
+        let v = data[i] / 128
+        let y = v * height / 2
         ctx.lineTo(x, y)
         x++
     }
@@ -57,11 +57,12 @@ function nextSound(){
     let http = new XMLHttpRequest()
     http.onreadystatechange = () => { 
         if(http.responseText){
-            var result = JSON.parse(http.responseText)
-            var music = result[parseInt(Math.random() * result.length)]
+            let result = JSON.parse(http.responseText)
+            console.log('Sounds: ' + result.length)
+            let music = result[parseInt(Math.random() * result.length)]
             
             document.querySelector('#author').hidden = false
-            var link = document.querySelector('#author a')
+            let link = document.querySelector('#author a')
             link.text = music.title
             link.href = music.permalink_url
 
@@ -69,7 +70,7 @@ function nextSound(){
             audio.play()
         }
     }
-    http.open("GET", 'http://api.soundcloud.com/tracks?filter=public&genres=electronic&client_id=4aec52a7c2e04ee6517c889ebaafcd43', true) 
+    http.open("GET", 'http://api.soundcloud.com/tracks?limit=100&genres=rock&client_id=4aec52a7c2e04ee6517c889ebaafcd43', true) 
     http.send()
 }
 
@@ -81,9 +82,9 @@ function upload(){
 function file_uploaded(){
     document.querySelector('#author').hidden = true
     let input = document.querySelector('input[type="file"]')
-    var url = URL.createObjectURL(input.files[0]) 
+    let url = URL.createObjectURL(input.files[0]) 
     audio.src = url
-    audio.play();
+    audio.play()
 }
 
 loop()
