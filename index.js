@@ -9,7 +9,7 @@ var biquadFilter = context.createBiquadFilter();
 
 biquadFilter.type = "lowpass";
 biquadFilter.frequency.value = 20000;
-biquadFilter.Q.value = 50;
+biquadFilter.Q.value = 20;
 
 var audio = new Audio();
 audio.loop = true;
