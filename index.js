@@ -34,26 +34,22 @@ function loop(){
     
     ctx.clearRect(0, 0, width, height)
     
-    for(var i = 0; i < freq.length; i++){
-        var f = freq[i]
-        draw(f,i,height,'#E6193C')
-    }
+    freq.forEach((f, i) => draw(f,i,height,'#E6193C'))
 
     ctx.lineWidth = 1
     ctx.strokeStyle = '#558B3D'
     ctx.beginPath()
 
-    var x = 0
-    ctx.moveTo(x, data[0] / 128.0 * height / 2)
-    for(var i = 1; i < data.length; i++) {
-        var v = data[i] / 128
+    ctx.moveTo(0, data[0] / 128.0 * height / 2)
+    data.forEach((d, x) => {
+        var v = d / 128
         var y = v * height / 2
         ctx.lineTo(x, y)
-        x++
-    }
+    })
     ctx.lineTo(width, height / 2)
     ctx.stroke()
 }
+
 function draw(freq, index, height, color){
     ctx.fillStyle = color
     ctx.fillRect(index, (height - freq) / 2, 1, freq)
