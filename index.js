@@ -3,7 +3,7 @@ canvas.width = canvas.scrollWidth;
 canvas.height = canvas.scrollHeight;
 var ctx = canvas.getContext('2d');
 
-var context = new AudioContext();
+var context = new (AudioContext || webkitAudioContext)();
 var analyser = context.createAnalyser();
 analyser.connect(context.destination);
 
