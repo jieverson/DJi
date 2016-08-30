@@ -5,16 +5,22 @@ var ctx = canvas.getContext('2d');
 
 var context = new (AudioContext || webkitAudioContext)();
 var analyser = context.createAnalyser();
-analyser.connect(context.destination);
+var biquadFilter = context.createBiquadFilter();
+
+biquadFilter.type = "lowpass";
+biquadFilter.frequency.value = 20000;
+biquadFilter.Q.value = 50;
 
 var audio = new Audio();
 audio.loop = true;
 audio.crossOrigin = 'anonymous';
 
-nextSound();
-
 var source = context.createMediaElementSource(audio);
-source.connect(analyser);
+source.connect(biquadFilter);
+biquadFilter.connect(analyser);
+analyser.connect(context.destination);
+
+nextSound();
 
 var width = canvas.width;
 var height = canvas.height;
@@ -72,6 +78,10 @@ function nextSound(){
     };
     http.open("GET", 'http://api.soundcloud.com/tracks?limit=100&genres=rock&client_id=4aec52a7c2e04ee6517c889ebaafcd43', true); 
     http.send();
+}
+
+function changeFrequency(range){
+    biquadFilter.frequency.value = range.value;
 }
 
 function upload(){

@@ -38,6 +38,10 @@ main button {
     font-size: 14px;
 }
 
+input[type='range']{
+    width: 400px;
+}
+
 input[type='file'] {
     display: none;
 }
