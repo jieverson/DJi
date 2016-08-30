@@ -1,35 +1,35 @@
-var canvas = document.querySelector('canvas')
+let canvas = document.querySelector('canvas')
 canvas.width = canvas.scrollWidth
 canvas.height = canvas.scrollHeight
-var ctx = canvas.getContext('2d')
+let ctx = canvas.getContext('2d')
 
-var context = new AudioContext()
-var analyser = context.createAnalyser()
-var biquadFilter = context.createBiquadFilter()
+let context = new AudioContext()
+let analyser = context.createAnalyser()
+let biquadFilter = context.createBiquadFilter()
 
 biquadFilter.type = "lowpass"
 biquadFilter.frequency.value = 20000
 biquadFilter.Q.value = 20
 
-var audio = new Audio()
+let audio = new Audio()
 audio.loop = true
 audio.crossOrigin = 'anonymous'
 
-var source = context.createMediaElementSource(audio)
+let source = context.createMediaElementSource(audio)
 source.connect(biquadFilter)
 biquadFilter.connect(analyser)
 analyser.connect(context.destination)
 
 nextSound()
 
-var width = canvas.width
-var height = canvas.height
+let width = canvas.width
+let height = canvas.height
 function loop(){
     window.requestAnimationFrame(loop)
-    var freq = new Uint8Array(analyser.frequencyBinCount)
+    let freq = new Uint8Array(analyser.frequencyBinCount)
     analyser.getByteFrequencyData(freq)
 
-    var data = new Uint8Array(analyser.frequencyBinCount)
+    let data = new Uint8Array(analyser.frequencyBinCount)
     analyser.getByteTimeDomainData(data)
     
     ctx.clearRect(0, 0, width, height)
@@ -42,8 +42,8 @@ function loop(){
 
     ctx.moveTo(0, data[0] / 128.0 * height / 2)
     data.forEach((d, x) => {
-        var v = d / 128
-        var y = v * height / 2
+        let v = d / 128
+        let y = v * height / 2
         ctx.lineTo(x, y)
     })
     ctx.lineTo(width, height / 2)
@@ -56,15 +56,15 @@ function draw(freq, index, height, color){
 }
 
 function nextSound(){
-    var http = new XMLHttpRequest()
+    let http = new XMLHttpRequest()
     http.onload = function() { 
         if(http.responseText){
-            var result = JSON.parse(http.responseText)
+            let result = JSON.parse(http.responseText)
             console.log('Sounds: ' + result.length)
-            var music = result[parseInt(Math.random() * result.length)]
+            let music = result[parseInt(Math.random() * result.length)]
             
             document.querySelector('#author').hidden = false
-            var link = document.querySelector('#author a')
+            let link = document.querySelector('#author a')
             link.text = music.title
             link.href = music.permalink_url
 
@@ -81,14 +81,14 @@ function changeFrequency(range){
 }
 
 function upload(){
-    var input = document.querySelector('input[type="file"]')
+    let input = document.querySelector('input[type="file"]')
     input.click()
 }
 
 function file_uploaded(){
     document.querySelector('#author').hidden = true
-    var input = document.querySelector('input[type="file"]')
-    var url = URL.createObjectURL(input.files[0])
+    let input = document.querySelector('input[type="file"]')
+    let url = URL.createObjectURL(input.files[0])
     audio.src = url
     audio.play()
 }
