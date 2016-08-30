@@ -57,7 +57,7 @@ function draw(freq, index, height, color){
 
 function nextSound(){
     var http = new XMLHttpRequest()
-    http.onreadystatechange = function() { 
+    http.onload = function() { 
         if(http.responseText){
             var result = JSON.parse(http.responseText)
             console.log('Sounds: ' + result.length)
