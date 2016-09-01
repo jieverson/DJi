@@ -1,12 +1,12 @@
 let canvas = document.querySelector('canvas')
-canvas.width = canvas.scrollWidth
-canvas.height = canvas.scrollHeight
+let width = canvas.width = canvas.scrollWidth
+let height = canvas.height = canvas.scrollHeight
 let ctx = canvas.getContext('2d')
 
 let context = new AudioContext()
 let analyser = context.createAnalyser()
-let biquadFilter = context.createBiquadFilter()
 
+let biquadFilter = context.createBiquadFilter()
 biquadFilter.type = "lowpass"
 biquadFilter.frequency.value = 20000
 biquadFilter.Q.value = 20
@@ -21,43 +21,11 @@ biquadFilter.connect(analyser)
 analyser.connect(context.destination)
 
 nextSound()
-
-let width = canvas.width
-let height = canvas.height
-function loop(){
-    window.requestAnimationFrame(loop)
-    let freq = new Uint8Array(analyser.frequencyBinCount)
-    analyser.getByteFrequencyData(freq)
-
-    let data = new Uint8Array(analyser.frequencyBinCount)
-    analyser.getByteTimeDomainData(data)
-    
-    ctx.clearRect(0, 0, width, height)
-    
-    freq.forEach((f, i) => draw(f,i,height,'#E6193C'))
-
-    ctx.lineWidth = 1
-    ctx.strokeStyle = '#558B3D'
-    ctx.beginPath()
-
-    ctx.moveTo(0, data[0] / 128.0 * height / 2)
-    data.forEach((d, x) => {
-        let v = d / 128
-        let y = v * height / 2
-        ctx.lineTo(x, y)
-    })
-    ctx.lineTo(width, height / 2)
-    ctx.stroke()
-}
-
-function draw(freq, index, height, color){
-    ctx.fillStyle = color
-    ctx.fillRect(index, (height - freq) / 2, 1, freq)
-}
+loop()
 
 function nextSound(){
     let http = new XMLHttpRequest()
-    http.onload = function() { 
+    http.onload = () => { 
         if(http.responseText){
             let result = JSON.parse(http.responseText)
             console.log('Sounds: ' + result.length)
@@ -76,6 +44,37 @@ function nextSound(){
     http.send()
 }
 
+function loop(){
+    window.requestAnimationFrame(loop)
+    let freq = new Uint8Array(analyser.frequencyBinCount)
+    analyser.getByteFrequencyData(freq)
+
+    let data = new Uint8Array(analyser.frequencyBinCount)
+    analyser.getByteTimeDomainData(data)
+    
+    ctx.clearRect(0, 0, width, height)
+    
+    freq.forEach((f, i) => draw(f,i,height,'#E6193C'))
+
+    ctx.lineWidth = 1
+    ctx.strokeStyle = '#558B3D'
+    ctx.beginPath()
+
+    ctx.moveTo(0, data[0] / 128 * height / 2)
+    data.forEach((d, x) => {
+        let v = d / 128
+        let y = v * height / 2
+        ctx.lineTo(x, y)
+    })
+    ctx.lineTo(width, height / 2)
+    ctx.stroke()
+}
+
+function draw(freq, index, height, color){
+    ctx.fillStyle = color
+    ctx.fillRect(index, (height - freq) / 2, 1, freq)
+}
+
 function changeFrequency(range){
     biquadFilter.frequency.value = range.value
 }
@@ -85,12 +84,9 @@ function upload(){
     input.click()
 }
 
-function file_uploaded(){
+function file_uploaded(input){
     document.querySelector('#author').hidden = true
-    let input = document.querySelector('input[type="file"]')
     let url = URL.createObjectURL(input.files[0])
     audio.src = url
     audio.play()
 }
-
-loop()
